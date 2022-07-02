@@ -1,4 +1,8 @@
-# Solana React Quickstart
+# Solana based real estate trading platform
+
+Check out your `~/.config/solana/id.json` for your keypair.
+
+Get your public key: `solana address`
 
 This is a simple CRA app with TypeScript and Solana wallet connection through wallet-adapter
 
