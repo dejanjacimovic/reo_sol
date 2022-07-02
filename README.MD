@@ -44,8 +44,5 @@ const transactionHash = await web3.sendAndConfirmRawTransaction(
 
 ## If you use anchor
 
-swap out `useWallet` with `useAnchorWallet` in `MyWallet.tsx`
+Swap out `useWallet` with `useAnchorWallet` in `MyWallet.tsx`.
 
-## License
-
-MIT
