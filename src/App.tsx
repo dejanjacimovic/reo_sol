@@ -1,4 +1,5 @@
 import React from "react";
+import {Helmet} from "react-helmet";
 import { Routes, Route, Link } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
@@ -23,6 +24,11 @@ import MyWallet from "./MyWallet";
 function App() {
   return (
     <>
+      <Helmet>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="/static/js/tailwind.config.js"></script>
+      </Helmet>
+
       <Routes>
         <Route path="/" element={<Wallet />} />
         <Route path="wallet" element={<Wallet />} />
