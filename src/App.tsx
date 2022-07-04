@@ -1,5 +1,5 @@
 import React from "react";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import { Routes, Route, Link } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
@@ -20,27 +20,10 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 import MyWallet from "./MyWallet";
+import UploadNFT from './components/UploadNFT'
 
 function App() {
-  return (
-    <>
-      <Helmet>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="/static/js/tailwind.config.js"></script>
-      </Helmet>
-
-      <Routes>
-        <Route path="/" element={<Wallet />} />
-        <Route path="wallet" element={<Wallet />} />
-        <Route path="form" element={<Form />} />
-      </Routes>
-    </>
-  );
-}
-
-function Wallet() {
-  // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
-  const network = WalletAdapterNetwork.Mainnet;
+  const network = WalletAdapterNetwork.Devnet;
 
   // You can also provide a custom RPC endpoint
   const endpoint = React.useMemo(() => clusterApiUrl(network), [network]);
@@ -59,38 +42,38 @@ function Wallet() {
     [network]
   );
 
+
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets}>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
+    <>
+      <Helmet>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="/static/js/tailwind.config.js"></script>
+      </Helmet>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets}>
+          <Routes>
+            <Route path="/" element={<Wallet />} />
+            <Route path="wallet" element={<Wallet />} />
+            <Route path="form" element={<Form />} />
+            <Route path="sell-nft" element={<UploadNFT endpoint={endpoint} />} />
+          </Routes>
+        </WalletProvider>
+      </ConnectionProvider>
+    </>
+  );
+}
 
-            <a
-              className="App-link"
-              href="https://solana-labs.github.io/solana-web3.js/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Solana Web3 docs
-            </a>
+function Wallet() {
 
-            <MyWallet />
-          </header>
-        </div>
-      </WalletProvider>
-    </ConnectionProvider>
+  return (
+
+    <div className="App">
+      <header className="App-header">
+        WElcome
+        <MyWallet />
+      </header>
+    </div>
+
   );
 }
 
@@ -189,108 +172,108 @@ function Form() {
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                   <div className="col-span-6 sm:col-span-3">
-                      <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                        Country
-                      </label>
-                      <select
-                        id="country"
-                        name="country"
-                        autoComplete="country-name"
-                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      >
-                        <option>Serbia</option>
-                        <option>Metaverse</option>
-                        <option>The other realm</option>
-                      </select>
-                    </div>
-
-                    <div className="col-span-6">
-                      <label htmlFor="street-address" className="block text-sm font-medium text-gray-700">
-                        Street address
-                      </label>
-                      <input
-                        type="text"
-                        name="street-address"
-                        id="street-address"
-                        autoComplete="street-address"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
-
-                    <div className="col-span-6">
-                      <label htmlFor="floor" className="block text-sm font-medium text-gray-700">
-                        Floor
-                      </label>
-                      <input
-                        type="text"
-                        name="floor"
-                        id="floor"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
-
-                    <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-                      <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                        City
-                      </label>
-                      <input
-                        type="text"
-                        name="city"
-                        id="city"
-                        autoComplete="address-level2"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
-
-                    <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                      <label htmlFor="region" className="block text-sm font-medium text-gray-700">
-                        State / Province
-                      </label>
-                      <input
-                        type="text"
-                        name="region"
-                        id="region"
-                        autoComplete="address-level1"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
-
-                    <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                      <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700">
-                        ZIP / Postal code
-                      </label>
-                      <input
-                        type="text"
-                        name="postal-code"
-                        id="postal-code"
-                        autoComplete="postal-code"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
+                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                      Country
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      autoComplete="country-name"
+                      className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    >
+                      <option>Serbia</option>
+                      <option>Metaverse</option>
+                      <option>The other realm</option>
+                    </select>
+                  </div>
 
                   <div className="col-span-6">
-                      <label htmlFor="rooms" className="block text-sm font-medium text-gray-700">
-                        Number of Rooms
-                      </label>
-                      <input
-                        type="number"
-                        name="rooms"
-                        id="rooms"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
+                    <label htmlFor="street-address" className="block text-sm font-medium text-gray-700">
+                      Street address
+                    </label>
+                    <input
+                      type="text"
+                      name="street-address"
+                      id="street-address"
+                      autoComplete="street-address"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
 
-                    <div className="col-span-6">
-                      <label htmlFor="size" className="block text-sm font-medium text-gray-700">
-                        Property size (square meters)
-                      </label>
-                      <input
-                        type="text"
-                        name="size"
-                        id="size"
-                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
+                  <div className="col-span-6">
+                    <label htmlFor="floor" className="block text-sm font-medium text-gray-700">
+                      Floor
+                    </label>
+                    <input
+                      type="text"
+                      name="floor"
+                      id="floor"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-6 lg:col-span-2">
+                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      autoComplete="address-level2"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                    <label htmlFor="region" className="block text-sm font-medium text-gray-700">
+                      State / Province
+                    </label>
+                    <input
+                      type="text"
+                      name="region"
+                      id="region"
+                      autoComplete="address-level1"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                    <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700">
+                      ZIP / Postal code
+                    </label>
+                    <input
+                      type="text"
+                      name="postal-code"
+                      id="postal-code"
+                      autoComplete="postal-code"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+
+                  <div className="col-span-6">
+                    <label htmlFor="rooms" className="block text-sm font-medium text-gray-700">
+                      Number of Rooms
+                    </label>
+                    <input
+                      type="number"
+                      name="rooms"
+                      id="rooms"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+
+                  <div className="col-span-6">
+                    <label htmlFor="size" className="block text-sm font-medium text-gray-700">
+                      Property size (square meters)
+                    </label>
+                    <input
+                      type="text"
+                      name="size"
+                      id="size"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
 
                   <div>
                     <label htmlFor="about" className="block text-sm font-medium text-gray-700">
