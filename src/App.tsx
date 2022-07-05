@@ -55,7 +55,7 @@ function App() {
             <Route path="/" element={<Wallet />} />
             <Route path="wallet" element={<Wallet />} />
             <Route path="form" element={<Form />} />
-            <Route path="sell-nft" element={<UploadNFT endpoint={endpoint} />} />
+            <Route path="sell-nft" element={<UploadNFT />} />
           </Routes>
         </WalletProvider>
       </ConnectionProvider>

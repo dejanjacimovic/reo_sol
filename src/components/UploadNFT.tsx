@@ -68,27 +68,13 @@ export default function UploadNFT() {
   const [xxx, setXxx] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [activeNft, setActiveNft] = useState<ArweaveDataResponse | null>(null)
+  const [allNftData, setAllNftData] = useState<any>()
 
-  //create a connection of devnet
-  // const connection = new Connection(endpoint);
-
-  const getProvider = () => {
-    if ("solana" in window) {
-      const provider = window.solana;
-      if (provider.isPhantom) {
-        return provider;
-      }
-    }
-  };
 
   async function getAllNftData() {
     try {
-      const provider = getProvider()
-      console.log(provider)
-      // let ownerToken = provider.publicKey
       const result = publicKey !== null && isValidSolanaAddress(walletAddress);
 
-      console.log('result', result)
 
       const nfts = await getParsedNftAccountsByOwner({
         publicAddress: walletAddress,
@@ -103,24 +89,31 @@ export default function UploadNFT() {
   }
 
   async function getNftTokenData() {
+
     const nftData = await getAllNftData()
     // @ts-ignore: Unreachable code error
-    let dataForFetching = nftData.map(item => item.data.uri)
+    if (nftData) {
+      let dataForFetching = nftData.map(item => item.data.uri)
+
+      let arweaveResponseResult: ArweaveDataResponse[] = []
+      dataForFetching.forEach(url => {
+        fetch(url)
+          .then(res => res.json())
+          .then(result => {
+            console.log(result)
+            arweaveResponseResult.push(result)
+          })
+      })
+
+      // setAllNftData(nftData)
+
+      return arweaveResponseResult
+    }
 
 
-    let arweaveResponseResult: ArweaveDataResponse[] = []
-    dataForFetching.forEach(url => {
-      fetch(url)
-        .then(res => res.json())
-        .then(result => {
-          console.log(result)
-          arweaveResponseResult.push(result)
-        })
-    })
 
-    console.log('final data',)
-    return arweaveResponseResult
   }
+
 
   useEffect(() => {
     async function data() {
@@ -130,6 +123,7 @@ export default function UploadNFT() {
       setLoading(true);
     }
     data();
+
   }, [walletAddress]);
 
   return (
@@ -150,15 +144,18 @@ export default function UploadNFT() {
           {connected && <WalletDisconnectButton />}
         </div>
 
-        {nftDataWithArweaveData?.map(item =>
+        {nftDataWithArweaveData?.map((item, index: number) =>
           <div
             key={item.name}
             className="single-nft"
-            onClick={() => setModalVisible(true)}
+
           >
             <img src={item.image} alt={item.name} />
             <p>{item.name}</p>
-            {/* <button>List </button> */}
+            <button onClick={() => {
+              setModalVisible(true)
+              setActiveNft(nftDataWithArweaveData[index])
+            }}>List NFT</button>
           </div>)}
       </div>
 
